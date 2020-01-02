@@ -6,6 +6,7 @@ import 'package:wisatah_malang/bloc/placesBloc.dart';
 import 'package:wisatah_malang/constant/constant.dart';
 import 'package:wisatah_malang/model/placesModel.dart';
 import 'package:wisatah_malang/routes/routes.dart';
+import 'package:wisatah_malang/service/apiModel.dart';
 import 'package:wisatah_malang/widget/detail.dart';
 
 class Home extends StatefulWidget {
@@ -68,68 +69,84 @@ class _HomeState extends State<Home> {
               }
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 24.0),
-                child: StreamBuilder<List<PlacesModel>>(
+                child: StreamBuilder<ApiModel<List<PlacesModel>>>(
                     stream: placesBloc.placesData,
                     builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return Container(
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
+                      if (snapshot.hasData) {
+                        switch (snapshot.data.status) {
+                          case Status.COMPLETED:
+                            return Container(
+                              child: _buildListPlaces(
+                                  context, snapshot.data.data),
+                            );
+                            break;
+                          case Status.ERROR:
+                            return Container(
+                              child: Text("Laporo Developere onok error"),
+                            );
+                            break;
+                          case Status.DIOERROR:
+                          return Container(
+                              child: Text("Laporo Developere dione error"),
+                            );
+                            break;
+                        }
                       }
-                      return ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () => Routes.sailor.navigate("/detail",
-                                params: {
-                                  "hero_tag": "image$index",
-                                  "places_detail": snapshot.data[index]
-                                }),
-                            child: Hero(
-                              tag: "image$index",
-                              child: Center(
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 8.0),
-                                  height: double.infinity,
-                                  width: 260.0,
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            snapshot.data[index].gambar,
-                                          ),
-                                          fit: BoxFit.cover)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 12.0, horizontal: 14.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: <Widget>[
-                                        Text(
-                                          snapshot.data[index].nama,
-                                          style: TextStyle(
-                                              fontSize: 24.0, color: white),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                      return Container(
+                        child: Center(child: CircularProgressIndicator()),
                       );
                     }),
               );
             }),
       ),
+    );
+  }
+
+  Widget _buildListPlaces(BuildContext context, List<PlacesModel> data) {
+    return ListView.builder(
+      physics: BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () => Routes.sailor.navigate("/detail", params: {
+            "hero_tag": "image$index",
+            "places_detail": data[index]
+          }),
+          child: Hero(
+            tag: "image$index",
+            child: Center(
+              child: Container(
+                margin: EdgeInsets.only(right: 8.0),
+                height: double.infinity,
+                width: 260.0,
+                decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10.0),
+                    image: DecorationImage(
+                        image: NetworkImage(
+                          data[index].gambar,
+                        ),
+                        fit: BoxFit.cover)),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 14.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text(
+                        data[index].nama,
+                        style: TextStyle(fontSize: 24.0, color: white),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
