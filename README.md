@@ -4,7 +4,7 @@ Aplikasi Sederhana Dibuat Dengan Flutter + Implementasi WABS with RxDart
 
 ### Screenshot Android ###
 
-| ![Home](https://raw.githubusercontent.com/4RSIM3R/wisatah_flutter/master/preview/81254165_1499177783575868_154374688124960768_n.png) | ![Detail](https://raw.githubusercontent.com/4RSIM3R/wisatah_flutter/master/preview/81041608_508478209775552_3387810911061278720_n.png) | ![No Internet ? ](https://raw.githubusercontent.com/4RSIM3R/wisatah_flutter/master/preview/82237810_621018245319283_6073236455516274688_n.png) | 
+* [Application Preview](https://github.com/4RSIM3R/wisatah_flutter/tree/master/preview) 
 
 ## What I Used ? 
 
