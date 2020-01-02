@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wisatah_malang/constant/constant.dart';
+import 'package:wisatah_malang/routes/routes.dart';
+import 'package:wisatah_malang/widget/detail.dart';
 
 class Home extends StatelessWidget {
   const Home({Key key}) : super(key: key);
@@ -40,14 +42,23 @@ class Home extends StatelessWidget {
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemCount: 5,
-            itemBuilder: (context, index){
-              return Container(
-                margin: EdgeInsets.only(right: 8.0),
-                height: double.infinity,
-                width: 260.0,
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(10.0)
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () => Routes.sailor.navigate("/detail", params: {
+                  "hero_tag" : "image$index"
+                }),
+                child: Hero(
+                  tag: "image$index",
+                  child: Center(
+                    child: Container(
+                      margin: EdgeInsets.only(right: 8.0),
+                      height: double.infinity,
+                      width: 260.0,
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10.0)),
+                    ),
+                  ),
                 ),
               );
             },

@@ -14,7 +14,13 @@ class Routes {
       ),
       SailorRoute(
         name: "/detail",
-        builder: (context, args, params) => Detail()
+        builder: (context, args, params) => Detail(),
+        params: [
+          SailorParam<String>(
+            name: "hero_tag",
+            defaultValue: "image1"
+          )
+        ]
       )
     ]);
   }
