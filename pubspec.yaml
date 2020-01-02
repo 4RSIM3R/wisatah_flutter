@@ -28,7 +28,10 @@ dependencies:
   sailor: ^0.6.0
   provider: ^4.0.1
   connectivity: ^0.4.6+1
-
+  latlong: ^0.6.1
+  flutter_map: ^0.8.0
+  
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
