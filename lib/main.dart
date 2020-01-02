@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wisatah_malang/bloc/networkBloc.dart';
 import 'package:wisatah_malang/routes/routes.dart';
 import 'package:wisatah_malang/widget/home.dart';
 
